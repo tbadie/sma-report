@@ -1,0 +1,29 @@
+\section{Présentation de la solution proposée}
+\label{sec:presentation}
+
+Comme annoncé dans l'introduction, nous avons cherché une solution
+permettant de résoudre au mieux le problème de recherche de place.
+
+L'idée de départ est que nous souhaitions qu'un agent seul puisse
+trouver une place dans des temps raisonnables, et cela impliquait que
+chaque agent ait un certain rayon de vision de manière à être
+autonome.
+
+Nous avons aussi défini un protocole de communication simple pour
+prévenir les agents en recherche de place lorsqu'un agent libère une
+place. On s'est rendu compte qu'il était plus efficace de prévenir au
+moins un tour avant de libérer la place. En pratique, ce protocole ne
+prévient qu'un seul agent qui dispose donc d'une information lui
+donnant un avantage sur les autres. Il abandonne donc la recherche
+d'autres places, et se dirige vers celle qui va se libérer. Ce qui
+réduit le temps où la place est libre.
+
+Dans la partie \ref{sec:benchmarks}, nous présenterons quelques
+résultats lorsque nous n'utilisons que la vision et nous les
+comparerons avec les résultats avec les messages.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../sma"
+%%% compile-command: "cd ..; make"
+%%% End:

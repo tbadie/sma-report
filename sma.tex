@@ -1,0 +1,42 @@
+\documentclass{article}
+
+\usepackage{pdfpages}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{hyperref}
+\usepackage{mdwlist}
+\usepackage{stmaryrd}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+
+\usepackage{xspace}
+\newcommand{\nest}{{\sc NEST}\xspace}
+
+
+\hypersetup
+{
+  colorlinks = true,
+  urlcolor= blue,
+  linkcolor= Black,
+  citecolor = Black
+}
+
+\bibliographystyle{unsrt}
+
+\title{Rapport du projet Système multi-agent.}
+\author{Thomas Badie \and Pierre Parutto}
+
+\begin{document}
+\maketitle
+
+\newpage
+\tableofcontents
+
+\include{src/introduction}
+\include{src/presentation}
+\include{src/implementation}
+\include{src/benchmark}
+\include{src/conclusion}
+
+\end{document}

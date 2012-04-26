@@ -1,0 +1,36 @@
+
+\section*{Introduction}
+\label{sec:intro}
+
+Le but de ce projet est de résoudre, à l'aide d'un SMA, un problème
+d'allocation de ressources si elles ne sont pas partageable.
+
+Les contraintes importantes que nous avons retenues et qui ont
+motivées les choix que nous avons fait dans ce projet sont les
+suivantes:
+
+\begin{itemize}
+\item Trouver une place le plus rapidement possible.
+\item Envoyer le moins de messages possibles.
+\item Conserver un protocole suffisamment simple pour être le plus
+  rapide possible.
+\item Se baser sur le comportement humain (plus cohérent que des
+  fourmis pour une recherche de place).
+\end{itemize}
+
+Nous avons donc tenté d'avoir un comportement permettant de respecter
+toutes ces contraintes.
+
+Dans une première partie nous présenterons notre solution, dans une
+seconde partie nous rentrerons plus en détail dans l'implémentation,
+et dans une troisième partie, nous présenterons notre analyse de
+résultat à l'aide de benchmark. Pour évaluer la validité de notre
+solution, nous avons évalué le temps moyen par agent pour trouver une
+place, ainsi que le ratio ``temps à chercher / (temps à chercher +
+temps garé)'', et enfin le nombre de message.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../sma"
+%%% compile-command: "cd ..; make"
+%%% End:
