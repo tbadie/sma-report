@@ -1,10 +1,20 @@
 \section{Présentation de la solution proposée}
 \label{sec:presentation}
 
+\subsection{Concept}
+\label{sec:concept}
+
 Comme annoncé dans l'introduction, nous avons cherché une solution
 permettant de résoudre au mieux le problème de recherche de place.
 
-L'idée de départ est que nous souhaitions qu'un agent seul puisse
+Rappelons les règles du projet, il y a un nombre $n$ de places sur une
+grille de taille indéfinie, où chaque case peut éventuellement être
+une case. Il y a un nombre $p$ d'agents, avec $n < p$. Lorsqu'un agent
+a trouvé une place, il y reste un temps fixé, puis lorsqu'il sort,
+passe un autre temps fixé à se déplacer aléatoirement sans rechercher
+de places.
+
+Notre idée de départ est que nous souhaitions qu'un agent seul puisse
 trouver une place dans des temps raisonnables, et cela impliquait que
 chaque agent ait un certain rayon de vision de manière à être
 autonome.
@@ -20,7 +30,88 @@ réduit le temps où la place est libre.
 
 Dans la partie \ref{sec:benchmarks}, nous présenterons quelques
 résultats lorsque nous n'utilisons que la vision et nous les
-comparerons avec les résultats avec les messages.
+comparerons avec les résultats avec les messages en plus.
+
+Nous avons souhaité conserver une modélisation simple, mélangeant les
+avantages des agents réactifs (qui se dirigent vers une place libre
+lorsqu'il y en a une), et des agents cognitifs (qui communiquent pour
+améliorer la résolution du problème).
+
+
+\subsection{Implémentation}
+\label{sec:implementation}
+
+Pour mettre en place notre solution, nous avons développé trois types
+d'agents différents:
+
+\begin{description}
+\item[RandomAgent] Ils se déplacent de manière aléatoire, changeant de
+  direction toutes les 6 itérations. Ils se garent lorsqu'ils sont
+  positionnés sur une place. Ils serviront pour comparer notre
+  solution lors des benchmarks.
+\item[SmartAgent] Ils suivent la description donnée dans la partie
+  \ref{sec:concept}.
+\item[ParkAgent] Ce sont des agents qui représentent des places. Ils
+  n'agissent pas, ni ne prennent pas de réservations. Ils ont
+  simplement un membre booléen signalant leur disponibilité ou non.
+\end{description}
+
+Il n'y a pas de raison d'entrer plus en détail dans l'implémentation
+des RandomAgents et des ParkAgents, dans cette section nous
+présenterons plus en détail comment nous avons implémenté SmartAgent,
+et quels sont les paramètres qui influent sur le système. Dans la
+partie \ref{sec:benchmarks}, nous ferons varier ces paramètres, et
+nous analyserons les effets qu'ils ont sur le système.
+
+\subsubsection{Le code}
+\label{sec:code}
+
+Le code peut être divisé en deux parties distinctes, les deux méthodes
+représentant les deux principaux états de l'agent, et une série de méthodes
+pour simplifier le travail de celles-ci.
+
+\paragraph{Live}
+
+La méthode ``live'' prend en charge la période de recherche et celle
+du déplacement aléatoire avant de se remettre à chercher.
+
+Lorsque l'on est dans l'état aléatoire, on ne fait rien à part changer
+de direction si on l'a fait il y a suffisamment longtemps, et avancer
+d'une case.
+
+Sinon, on vide la boite au lettre, et s'il y a un message on le lit et
+on affecte notre cible avec la valeur du message. Si on n'a pas encore
+de cible on en cherche une et on se dirige vers elle si on en trouve
+une. Sinon on se déplace aléatoirement. Si on a déjà une, on se dirige
+vers elle. On vérifie aussi si on est garé, si c'est le cas on change
+d'état pour ``parked''.
+
+\paragraph{Parked}
+
+On laisse passer le nombre d'itérations nécessaire pour rester garé.
+Les $k$ dernières itérations, on cherche l'agent le plus proche, et
+on lui envoie un message pour lui faire savoir que la place va bientôt
+se libérer, pour qu'il puisse s'en approcher en vue de s'y garer. La
+place n'est pas réservée, puisqu'il est possible que quelqu'un d'autre
+arrive et prenne la place avant.
+
+\subsubsection{Les paramètres}
+\label{sec:params}
+
+Il y a une liste de paramètres qui influent sur le système
+multi-agent, nous allons les présenter ici:
+
+\begin{description}
+\item[Parktime] Le temps où chaque agent reste lorsqu'il est garé.
+\item[VisionRadius] Le champs de vision de chaque agent.
+\item[LapBeforeBroadcast] L'agent garé envoie des messages les $k$
+  dernières itérations lorsqu'il est garé. $k$ est ce paramètre.
+\item[TimeBeforeSearch] Le temps où l'agent est en aléatoire après
+  s'être garé.
+\item[NumAgent] Le nombre d'agent sur la carte.
+\item[NumPark] Le nombre de place sur la carte.
+\end{description}
+
 
 %%% Local Variables:
 %%% mode: latex
