@@ -31,19 +31,23 @@ Lors de ces tests nous ne faisons varier qu'un seul paramètre. Tous les autres 
 \begin{itemize}
 \item Nombre d'agents : 200
 \item Nombre de places : 100
-\item Champs de visions : 10
-\item Temps avant message : 3
-\item Temps avant recherche : 10
-\item Temps resté sur une place : 10\\
+\item Durée de la simulation : 50s
+\item Pause entre les tours : 50ms
+\item Champs de visions : 10 cases
+\item Temps avant message : 3 rounds
+\item Temps avant recherche : 10 rounds
+\item Temps resté sur une place : 10 rounds\\
 \end{itemize}
 
 Pour cette configuration on a les valeurs suivantes :\\
 
 \begin{itemize}
-\item Nombre de messages totaux envoyés :
-\item Pourcentage temps de recherche / temps vers place : 
-\item Pourcentage temps garé / temps total :
+\item Nombre de messages totaux envoyés : 41865
+\item Moyenne de place :  16.60
+\item Pourcentage temps garé / temps total : 0.62
 \end{itemize}
+
+Dans la suite de ce rapport, le temps total désignera le temps de recherche d'une place + le temps de stationnement. Nous ne considérons que ces deux paramètres car les autres paramètres sont constants et peuvent être enlevés.
 
 \subsubsection{Variations du champs de visions}
 
@@ -195,6 +199,16 @@ Finalement, plus les agents se dispersent sur la grille meilleur sont les soluti
 
 Cette fois nous faisons varier le nombre d'agents et le nombre de places disponibles. La seule contrainte étant qu'il y aille toujours moins de places que de voitures.
 
+\subsubsection{Nombre de voitures et nombre de places}
+
+Deux paramètres évalués ici sont le dimensionnement du système et le ratio voitures / places.
+Les résultats sont présentés dans la figure \ref{nbagents:all}.\\
+
+Il est intéressant de voir que le ratio voitures / places n'influence que très faiblement notre système.
+Ceci est du à un phénomène de stabilisation du système dans lequel chaque agent trouve une place en un temps borné.\\
+
+Un phénomène très intéressant est l'amélioration de la solution avec le nombre d'agents. Cela prouve une bonne communication et prise en compte des informations entre agents. De plus changer le nombre de places pour un nombre d'agents donné n'a que très peu d'impact sur le système ce qui prouve une forme de robustesse.
+
 \begin{figure}
   \begin{center}
     \subfigure[Nombre de messages en fonction des nombres d'agents et de places]{
@@ -213,19 +227,23 @@ Cette fois nous faisons varier le nombre d'agents et le nombre de places disponi
     }
   \end{center}
 
-  \caption{Résultats obtenus en faisant varier le temps avant une nouvelle recherche}
-  \label{timeb4search:all}
+  \caption{Résultats obtenus en faisant varier les nombres d'agents et de places disponibles}
+  \label{nbagents:all}
 \end{figure}
+
+\subsubsection{Durée de la simulation}
+
+La durée de la simulation permet de savoir si le système tend à se stabiliser dans le temps ou non.
+Les résultats sont présentés dans la figure ADD figure.
 
 \subsection{Comparaison avec un agent aléatoire}
 
 La comparaison avec un agent aléatoire permet de voire l'amélioration apportée par notre solution.
-
 Pour les paramètres standards donnés ci-dessus on a les valeurs suivantes sur une simulation de 200 secondes.
 
 \begin{center}
   \begin{tabular}{c|c|c|c}
-    & messages & moyenne temps avant trouver place & temps recherche / temps garé\\
+    & messages      & moyenne de place & $\frac{\mbox{temps recherche}}{\mbox{temps total}}$\\
     \hline
     Agent Aléatoire & 0        & 101.47                            & 0.90\\
     \hline
@@ -233,7 +251,7 @@ Pour les paramètres standards donnés ci-dessus on a les valeurs suivantes sur 
   \end{tabular}
 \end{center}
 
-On observe que notre solution donne de bien meilleur résultats en terme de qualité du résultat mais est beaucoup plus coûteuse en terme de performances.
+On observe que notre solution donne de bien meilleur résultats en terme de qualité du résultat mais est beaucoup plus coûteuse en terme de performances. La défaut principale de notre solution est que son efficacité varie beaucoup en fonction des paramètres propres aux agents. Par contre sa force est d'être assez invariables aux paramètres du système.
 
 %%% Local Variables:
 %%% mode: latex
