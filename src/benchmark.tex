@@ -9,15 +9,15 @@ On peut classer ces paramètres en deux catégories principales:\\
 \item Paramètres du système : nombre d'agents, nombre de places\\
 \end{itemize}
 
-Chacun de ces paramètres (des agents ou du système) influence directement les résultats de notre méthode.
+Chacun de ces paramètres (des agents ou du système) influencent directement les résultats de notre méthode.
 On s'aperçoit ainsi qu'elle est robuste face à la variation de certains et non robuste par rapport à d'autre.\\
 
-Pour chacun de ces paramètres nous mesurons trois indicateurs différents:\\
+Pour chacun de ces paramètres nous mesurons trois indicateurs différents :\\
 
 \begin{itemize}
 \item Nombre de messages totaux envoyés
-\item Pourcentage du temps passé à chercher aléatoirement une place par rapport au temps passé à se déplacer vers une place.
-\item Ratio temps garé par rapport au temps total de la simulation\\
+\item Moyenne du temps passé à chercher une place par rapport au nombre de place trouvées appelé moyenne de place.
+\item Ratio temps garé par rapport au temps total\\
 \end{itemize}
 
 Ces indicateurs nous semblent les plus importants car ils décrivent la consommation du système (nombre de message) et sa performance.
@@ -49,14 +49,14 @@ Pour cette configuration on a les valeurs suivantes :\\
 
 Dans un premier temps nous faisons varier le champs de vision de chaque agent entre 1 et 20 cases.
 
-\paragraph{Résultats et Interpretation}
+\paragraph{Résultats et Interprétation}
 
 Les résultats sont présentés dans la figure \ref{vision:all}.
 
-On remarque que logiquement, quand le champs de vision des agents augmente, ils détectent et signalent plus de placent et ainsi le nombre de messages envoyés augmente.
+On remarque que logiquement, quand le champs de vision des agents augmente, ils détectent et signalent plus de places et ainsi le nombre de messages envoyés augmente.
 Cette augmentation se fait proportionnellement à la taille du champ de vision, ce qui s'explique par la répartition des places sur la grille. Avec un ratio voitures / places plus fort cette augmentation pourrait être plus importante.\\
 
-On voit que notre système fonctionne bien en observant la décroissance du ratio vagabondage / vers place qui traduit la qualité de la place sélectionnée. Cette qualité s'améliore avec l'augmentation du champs de vision, ce qui prouve que malgré le nombre de place repéré l'agent prend généralement la plus proche.
+On voit que notre système fonctionne bien en observant la décroissance de la moyenne de place qui traduit la qualité de la place sélectionnée. Cette qualité s'améliore avec l'augmentation du champs de vision, ce qui prouve que malgré le nombre de place repéré l'agent prend généralement la plus proche.
 
 La courbe du ratio total de temps garé s'explique par plus de places détectées et une qualité des solutions choisies qui s'améliore.
 
@@ -67,7 +67,7 @@ La courbe du ratio total de temps garé s'explique par plus de places détectée
       \label{vision:message}
     }
     
-    \subfigure[Pourcentage temps de vagabondage / temps vers place]{
+    \subfigure[moyenne de place]{
       \includegraphics[scale=.3]{src/vision-seekfound}
       \label{vision:seekfound}
     }
@@ -88,11 +88,11 @@ Deuxième paramètre à varier, le temps de stationnement, entre 0 et 15 rounds.
 
 \paragraph{Résultats et interprétation}
 
-Les résultats sont présentés dans la figure \ref{parktime:all}
+Les résultats sont présentés dans la figure \ref{parktime:all}.
 Le nombre de messages n'est pas vraiment influencé par le temps de stationnement.
-En revanche on que plus le temps de stationnement est long, plus la qualité de la solution trouvé par chaque agent se dégrade. Ceci s'explique par le fait que vu qu'il y a deux fois moins de places que de voitures, les places libres deviennent de plus en plus rares. Encore une fois avec d'autres paramètres par défaut cette courbe changerait. En l'état elle illustre bien un processus de famine et à l'inverse quand le temps de stationnement est faible, les solutions sont de meilleur qualité.\\
+En revanche on remarque que plus le temps de stationnement est long, plus la qualité de la solution trouvé par chaque agent se dégrade. Ceci s'explique par le fait que vu qu'il y a deux fois moins de places que de voitures, les places libres deviennent de plus en plus rares. Encore une fois avec d'autres paramètres par défaut cette courbe changerait. En l'état elle illustre bien un processus de famine et à l'inverse quand le temps de stationnement est faible, les solutions sont de meilleur qualité.\\
 
-Enfin la solution générale s'améliore grandement (plus qu'avec le champs de vision) avec un temps de stationnement plus long. Ceci est la combinaison du temps de stationnement long améliorant le ratio et du phénomène de raréfaction des ressources l'améliorant encore plus.\\
+Enfin la solution générale s'améliore grandement (plus qu'avec le champs de vision) avec un temps de stationnement plus long. Ceci est la combinaison du temps de stationnement long améliorant le ratio et du phénomène de rarification des ressources l'améliorant encore plus.\\
 
 Ce paramètres montre bien la dualité qu'il y a entre qualité globale de la solution du système et la qualité locale des solutions choisies par chaque agents.
 
@@ -103,7 +103,7 @@ Ce paramètres montre bien la dualité qu'il y a entre qualité globale de la so
       \label{parktime:message}
     }
     
-    \subfigure[Pourcentage temps de vagabondage / temps vers place]{
+    \subfigure[moyenne de place]{
       \includegraphics[scale=.3]{src/parktime-seekfound}
       \label{parktime:seekfound}
     }
@@ -129,10 +129,9 @@ Les résultats sont présentés dans la figure \ref{timeb4broad:all}\\
 
 {\bf Note: } Plus le temps avant diffusion est faible, plus l'agent va prévenir tard avant de quitter sa place. Ainsi avec un temps de 1 round l'agent prévient les autres 1 round avant de quitter sa place.\\
 
-L'augmentation du nombre de messages envoyés s'explique simplement par le fait qu'à chaque round encore sur une place si il a commencé à diffuser l'agent continue à le faire. Plus il diffuse tard moins de messages sont donc envoyés. C'est le paramètre influençant le plus le nombre de messages transmis.\\
+L'augmentation du nombre de messages envoyés s'explique simplement par le fait qu'à chaque round encore sur une place si il a commencé à diffuser l'agent continue à le faire. Plus il diffuse tard moins il le fait longtemps d'où moins de messages envoyés. C'est le paramètre influençant le plus le nombre de messages transmis.\\
 
 Par contre, plus les autres agents sont prévenus tard, moins il ont le temps de réagir donc plus la qualité locale et totale des solutions décroît. A noter quand même que la solution globale s'améliore plus que la solution locale quand le paramètre varie. Cela peut être du au phénomène de rarification des ressources propre à notre système.
-
 
 \begin{figure}
   \begin{center}
@@ -141,7 +140,7 @@ Par contre, plus les autres agents sont prévenus tard, moins il ont le temps de
       \label{timeb4broad:message}
     }
     
-    \subfigure[Pourcentage temps de vagabondage / temps vers place]{
+    \subfigure[Moyenne de place]{
       \includegraphics[scale=.3]{src/timeb4broad-seekfound}
       \label{timeb4broad:seekfound}
     }
@@ -177,7 +176,7 @@ Finalement, plus les agents se dispersent sur la grille meilleur sont les soluti
       \label{timeb4search:message}
     }
     
-    \subfigure[Pourcentage temps de vagabondage / temps vers place]{
+    \subfigure[Moyenne de place]{
       \includegraphics[scale=.3]{src/timeb4search-seekfound}
       \label{timeb4search:seekfound}
     }
@@ -195,6 +194,46 @@ Finalement, plus les agents se dispersent sur la grille meilleur sont les soluti
 \subsection{Paramètres du système}
 
 Cette fois nous faisons varier le nombre d'agents et le nombre de places disponibles. La seule contrainte étant qu'il y aille toujours moins de places que de voitures.
+
+\begin{figure}
+  \begin{center}
+    \subfigure[Nombre de messages en fonction des nombres d'agents et de places]{
+      \includegraphics[scale=.35]{src/nbagents-message}
+      \label{nbagents:message}
+    }
+    
+    \subfigure[Moyenne de place]{
+      \includegraphics[scale=.35]{src/nbagents-seekfound}
+      \label{nbagents:seekfound}
+    }
+    
+    \subfigure[Ratio temps garé / temps total]{
+      \includegraphics[scale=.35]{src/nbagents-seeking}
+      \label{nbagents:seeking}
+    }
+  \end{center}
+
+  \caption{Résultats obtenus en faisant varier le temps avant une nouvelle recherche}
+  \label{timeb4search:all}
+\end{figure}
+
+\subsection{Comparaison avec un agent aléatoire}
+
+La comparaison avec un agent aléatoire permet de voire l'amélioration apportée par notre solution.
+
+Pour les paramètres standards donnés ci-dessus on a les valeurs suivantes sur une simulation de 200 secondes.
+
+\begin{center}
+  \begin{tabular}{c|c|c|c}
+    & messages & moyenne temps avant trouver place & temps recherche / temps garé\\
+    \hline
+    Agent Aléatoire & 0        & 101.47                            & 0.90\\
+    \hline
+    Notre solution  & 234107   & 16.31                             & 0.62\\
+  \end{tabular}
+\end{center}
+
+On observe que notre solution donne de bien meilleur résultats en terme de qualité du résultat mais est beaucoup plus coûteuse en terme de performances.
 
 %%% Local Variables:
 %%% mode: latex
